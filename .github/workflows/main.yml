@@ -1,0 +1,38 @@
+name: Build with Visual Studio 2022
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Setup Visual Studio 2022
+      uses: microsoft/setup-visualstudio@v1
+      with:
+        channel: '2022'
+
+    - name: Restore NuGet packages
+      run: nuget restore /chrlauncher.sln
+
+    - name: Build solution
+      run: msbuild /chrlauncher.sln /p:Configuration=Release
+
+    - name: Publish build artifacts
+      if: success()
+      uses: actions/upload-artifact@v3
+      with:
+        name: BuildArtifacts
+        path: /bin

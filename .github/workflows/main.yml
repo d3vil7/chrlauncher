@@ -2,24 +2,6 @@ name: Build with Visual Studio 2022
 
 on:
   workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
-      tags:
-        description: 'Test scenario tags'
-        required: false
-        type: boolean
-      environment:
-        description: 'Environment to run tests against'
-        type: environment
-        required: false
 
 jobs:
   build:
@@ -27,18 +9,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
-
-    - name: Setup Visual Studio 2022
-      uses: microsoft/setup-visualstudio@v1
-      with:
-        channel: '2022'
-
-    - name: Restore NuGet packages
-      run: nuget restore /chrlauncher.sln
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v2
 
     - name: Build solution
       run: msbuild /chrlauncher.sln /p:Configuration=Release
@@ -48,4 +22,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: BuildArtifacts
-        path: /bin
+        path: /bin/chrlauncher.exe

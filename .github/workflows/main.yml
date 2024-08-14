@@ -15,7 +15,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Build solution
-      run: msbuild \chrlauncher.sln /m /p:configuration="Release" /p:platform="x64"
+      run: msbuild chrlauncher.sln /m /p:configuration="Release" /p:platform="x64"
 
     - name: Publish build artifacts
       if: success()

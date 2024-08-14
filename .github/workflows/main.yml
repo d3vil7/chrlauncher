@@ -10,6 +10,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      
+    - name: Clone routine
+      run: git clone https://github.com/henrypp/routine.git
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v2
